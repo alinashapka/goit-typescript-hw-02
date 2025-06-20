@@ -1,12 +1,21 @@
-import { Field, Form, Formik } from 'formik';
+import { Field, Form, Formik, FormikHelpers } from 'formik';
+import { SubmitValues } from '../types/submit';
 import toast from 'react-hot-toast';
 
 import clsx from 'clsx';
 import css from './SearchBar.module.css';
 
-export default function SearchBar({onSearch}) {
+const FormValues: SubmitValues = {
+  query: "",
+};
 
-    const handleSubmit = (values, actions) => {
+interface Props {
+  onSearch: (arg0: string) => void;
+}
+
+export default function SearchBar({onSearch}: Props) {
+
+    const handleSubmit = (values: SubmitValues, actions: FormikHelpers<SubmitValues>) => {
         const trimmedQuery = values.query.trim();
 
         if (trimmedQuery === '') {
@@ -20,7 +29,7 @@ export default function SearchBar({onSearch}) {
 
     return (
         <Formik
-      initialValues={{ query: '' }}
+      initialValues={FormValues}
       onSubmit={handleSubmit}
         >
         <Form className={clsx(css.form)} >

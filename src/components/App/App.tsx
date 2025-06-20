@@ -2,19 +2,20 @@ import { useState, useEffect } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { BounceLoader } from "react-spinners";
 
-import SearchBar from './SearchBar';
-import { fetchImages } from '../img-api';
-import ImageGallery from './ImageGallery';
-import ErrorMessage from './ErrorMessage';
-import LoadMoreBtn from './LoadMoreBtn';
-import ImageModal from './ImageModal';
+import SearchBar from '../SearchBar/SearchBar';
+import { fetchImages } from '../../img-api';
+import ImageGallery from '../ImageGallery/ImageGallery';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import LoadMoreBtn from '../LoadMoreBtn/LoadMoreBtn';
+import ImageModal from '../ImageModal/ImageModal';
 
 import clsx from 'clsx';
 import css from './App.module.css';
+import { Image } from '../types/image';
 
 function App() {
 
-const [images, setImages] = useState([]);
+const [images, setImages] = useState<Image[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
 
@@ -22,10 +23,10 @@ const [images, setImages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState<Image | null>(null);
 const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleSearch = (newQuery) => {
+  const handleSearch = (newQuery: string) => {
     setQuery(newQuery);
     setCurrentPage(1);
     setImages([]);
@@ -61,7 +62,7 @@ const incrementPage = () => {
   const isLastPage = currentPage === totalPages - 1;
   const hasImages = images.length > 0;
 
-const openModal = (image) => {
+const openModal = (image: Image) => {
   setSelectedImage(image);
   setIsModalOpen(true);
 };
@@ -86,7 +87,7 @@ const closeModal = () => {
           />
         </div>
       )}
-      {isModalOpen && <ImageModal isOpen={isModalOpen}
+      {isModalOpen && selectedImage && <ImageModal isOpen={isModalOpen}
   onRequestClose={closeModal}
   image={selectedImage}/>}
       {hasImages && !isLoading && !isLastPage && (<LoadMoreBtn onClick={incrementPage}/>)}

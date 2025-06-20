@@ -1,4 +1,5 @@
 import Modal from 'react-modal';
+import { Image } from '../types/image';
 
 Modal.setAppElement('#root');
 
@@ -17,7 +18,13 @@ const customStyles = {
   },
 };
 
-export default function ImageModal({ isOpen, onRequestClose, image }) {
+interface Props {
+  image: Image;
+  isOpen: boolean;
+  onRequestClose: () => void;
+}
+
+export default function ImageModal({ isOpen, onRequestClose, image }: Props) {
     return(  <div>
       <Modal
         isOpen={isOpen}
